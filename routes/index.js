@@ -147,7 +147,14 @@ router.get('/:lang/itinerary/add', function(req, res){
     client.get('itinerary', function(err, data){
       var json = JSON.parse(data || '[]');
       console.log(req.query);
-      json.push(req.query);
+
+      var isExists = _.find(json, {
+        id: req.query.id
+      });      
+
+      if(!isExists) {
+        json.push(req.query);
+      }
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
           'Access-Control-Allow-Origin': req.get('origin'),
@@ -156,7 +163,7 @@ router.get('/:lang/itinerary/add', function(req, res){
           'Access-Control-Allow-Credentials': true
         });
         res.json({});
-        res.end();        
+        res.end();  
       });
     });
 
