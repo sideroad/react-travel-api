@@ -152,9 +152,7 @@ router.post('/:lang/itinerary/add', function(req, res){
         id: req.body.id
       });      
 
-      if(!isExists) {
-        json.push(req.body);
-      }
+      json.push(req.body);
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
           'Access-Control-Allow-Origin': req.get('origin'),
