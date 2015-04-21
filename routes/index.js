@@ -146,14 +146,14 @@ router.post('/:lang/itinerary/add', function(req, res){
   try {
     client.get('itinerary', function(err, data){
       var json = JSON.parse(data || '[]');
-      console.log(req.query);
+      console.log(req.body);
 
       var isExists = _.find(json, {
-        id: req.query.id
+        id: req.body.id
       });      
 
       if(!isExists) {
-        json.push(req.params);
+        json.push(req.body);
       }
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
