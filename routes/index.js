@@ -136,7 +136,7 @@ router.options('/:lang/itinerary/add', function(req, res){
   res.set({
     'Access-Control-Allow-Origin': req.get('origin'),
     'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers':'*',
+    'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
     'Access-Control-Allow-Credentials': true
   });
   res.end();
@@ -159,7 +159,7 @@ router.post('/:lang/itinerary/add', function(req, res){
         res.set({
           'Access-Control-Allow-Origin': req.get('origin'),
           'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers':'*',
+          'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
           'Access-Control-Allow-Credentials': true
         });
         res.json({});
