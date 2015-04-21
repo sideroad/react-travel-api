@@ -142,7 +142,7 @@ router.options('/:lang/itinerary/add', function(req, res){
   res.end();
 });
 
-router.get('/:lang/itinerary/add', function(req, res){
+router.post('/:lang/itinerary/add', function(req, res){
   try {
     client.get('itinerary', function(err, data){
       var json = JSON.parse(data || '[]');
@@ -153,7 +153,7 @@ router.get('/:lang/itinerary/add', function(req, res){
       });      
 
       if(!isExists) {
-        json.push(req.query);
+        json.push(req.params);
       }
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
