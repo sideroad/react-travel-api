@@ -148,9 +148,7 @@ router.post('/:lang/itinerary/add', function(req, res){
       var json = JSON.parse(data || '[]');
       console.log(req.body);
 
-      var isExists = _.find(json, {
-        id: req.body.id
-      });
+      req.body.id = Math.abs(Math.random()) + '-' + (+new Date()) + '-' + req.body.placeId;
 
       json.push(req.body);
       client.set('itinerary', JSON.stringify(json), function(err){
