@@ -148,9 +148,11 @@ router.post('/:lang/itinerary/add', function(req, res){
       var json = JSON.parse(data || '[]');
       console.log(req.body);
 
-      req.body.id = Math.abs(Math.random()) + '-' + (+new Date()) + '-' + req.body.placeId;
+      var item = _.extend({}, req.body, {
+        id: Math.abs(Math.random()) + '-' + (+new Date()) + '-' + req.body.placeId
+      });
 
-      json.push(req.body);
+      json.push(item);
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
           'Access-Control-Allow-Origin': req.get('origin'),
@@ -158,7 +160,7 @@ router.post('/:lang/itinerary/add', function(req, res){
           'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
           'Access-Control-Allow-Credentials': true
         });
-        res.json({});
+        res.json(item);
         res.end();  
       });
     });
