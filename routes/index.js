@@ -150,7 +150,7 @@ router.post('/:lang/itinerary/add', function(req, res){
 
       var isExists = _.find(json, {
         id: req.body.id
-      });      
+      });
 
       json.push(req.body);
       client.set('itinerary', JSON.stringify(json), function(err){
