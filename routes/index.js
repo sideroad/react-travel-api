@@ -179,8 +179,33 @@ router.post('/:lang/itinerary/add', function(req, res){
           'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
           'Access-Control-Allow-Credentials': true
         });
-        res.json(item);
+        res.json(json);
         res.end();  
+      });
+    });
+
+  } catch (err){
+    console.log(err);
+  }
+});
+
+router.post('/:lang/itinerary/remove/:id/', function(req, res){
+  try {
+    client.get('itinerary', function(err, data){
+      var json = JSON.parse(data || '[]');
+      console.log(req.body);
+
+      json = _.remove(json, {id: req.params.id});
+
+      client.set('itinerary', JSON.stringify(json), function(err){
+        res.set({
+          'Access-Control-Allow-Origin': req.get('origin'),
+          'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
+          'Access-Control-Allow-Credentials': true
+        });
+        res.json(json);
+        res.end();
       });
     });
 
