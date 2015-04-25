@@ -85,7 +85,6 @@ router.get('/:lang/spots/:place', function(req, res){
   }
 });
 
-
 router.get('/:lang/nearby/:location/:types', function(req, res){
   try {
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
@@ -95,19 +94,39 @@ router.get('/:lang/nearby/:location/:types', function(req, res){
               'location='+req.params.location+'&'+
               'key='+process.env.GOOGLE_API_KEY;
     console.log(url);
-    superagent
-      .get(url)
-      .set('Accept', 'application/json')
-      .end(function(err, data){
-        res.set({
-          'Access-Control-Allow-Origin': req.get('origin'),
-          'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers':'*',
-          'Access-Control-Allow-Credentials': true
-        });
-        res.json(data.body);
-        res.end();
+
+    get(url, function(data){
+      var spots = _.map(data.body.results||[], function(spot){
+                    var photos = (spot.photos || []).map(function(photo){
+                          return 'https://maps.googleapis.com/maps/api/place/photo?'+
+                                 'photoreference='+photo.photo_reference+'&'+
+                                 'maxwidth=242&'+
+                                 'maxheight=242&'+
+                                 'key='+process.env.GOOGLE_API_KEY;
+                        });
+
+                    return {
+                      id: spot.place_id,
+                      name: spot.name,
+                      address: spot.formatted_address,
+                      website: spot.website,
+                      rating: spot.rating,
+                      geometry: spot.geometry,
+                      opening_hours: spot.opening_hours,
+                      photo: photos[0],
+                      photos: photos
+                    };
+                  });
+
+      res.set({
+        'Access-Control-Allow-Origin': req.get('origin'),
+        'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers':'*',
+        'Access-Control-Allow-Credentials': true
       });
+      res.json(spots);
+      res.end();
+    });
 
   } catch (err){
     console.log(err);
