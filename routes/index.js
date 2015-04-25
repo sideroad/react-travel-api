@@ -195,7 +195,7 @@ router.post('/:lang/itinerary/remove/:id/', function(req, res){
       var json = JSON.parse(data || '[]');
       console.log(req.body);
 
-      json = _.remove(json, {id: req.params.id});
+      _.remove(json, {id: req.params.id});
 
       client.set('itinerary', JSON.stringify(json), function(err){
         res.set({
