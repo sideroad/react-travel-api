@@ -170,4 +170,20 @@ router.post('/:lang/itinerary/add', function(req, res){
   }
 });
 
+router.get('/:lang/itinerary/deleteAll', function(req, res){
+  try {
+    client.flushdb();
+    res.set({
+      'Access-Control-Allow-Origin': req.get('origin'),
+      'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
+      'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept',
+      'Access-Control-Allow-Credentials': true
+    });
+    res.json({});
+    res.end();  
+  } catch (err){
+    console.log(err);
+  }  
+});
+
 module.exports = router;
