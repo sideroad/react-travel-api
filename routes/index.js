@@ -89,6 +89,7 @@ router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
   try {
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
               'radius='+req.params.radius+'&'+
+              'name=*&'+
               'language='+req.params.lang+'&'+
               'types='+req.params.types+'&'+
               'location='+req.params.location+'&'+
