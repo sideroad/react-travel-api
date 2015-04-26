@@ -85,10 +85,10 @@ router.get('/:lang/spots/:place', function(req, res){
   }
 });
 
-router.get('/:lang/nearby/:location/:types', function(req, res){
+router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
   try {
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
-              'rankby=distance&'+
+              'radius='+req.params.radius+'&'+
               'language='+req.params.lang+'&'+
               'types='+req.params.types+'&'+
               'location='+req.params.location+'&'+
