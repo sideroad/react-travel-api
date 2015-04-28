@@ -11,6 +11,7 @@ var _ = require('lodash');
 client.auth(redisURL.auth.split(":")[1]); 
 client.flushdb();
 var crypto = require('crypto');
+var md5 = crypto.createHash('md5');
 var get = function(url, callback){
   console.log(url);
   client.get(url, function(data){
@@ -91,10 +92,33 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
                                         'maxwidth='+req.params.width+'&'+
                                         'maxheight='+req.params.height+'&'+
                                         'key='+process.env.GOOGLE_API_KEY;
+
+  var getFile = function(url, callback){
+    md5.update(url);
+    var filename = md5.digest('hex'),
+        extname  = path.extname(url),
+        filepath = "tmp/"+filename+extname;
+
+    if(fs.existsSync('/app/'+filepath)){
+      callback(filepath);
+    } else {
+      superagent
+        .get(url)
+        .end(function(err, data){
+          fs.writeFile(filename, data, function(){
+            callback(filepath);
+          });
+        });
+    }
+  };
   get(url, function(data){
-    res.send(data);
-    res.end();
+    getFile(data.req.url, function(data){
+      res.sendFile(filepath, {
+        root: '/app/'
+      });
+    });
   });
+
 });
 
 router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
