@@ -108,7 +108,7 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
       superagent
         .get(url)
         .end(function(err, data){
-          fs.writeFile(filename, data.body, function(){
+          fs.writeFile(filepath, data.body, function(){
             callback(filepath);
           });
         });
