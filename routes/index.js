@@ -8,6 +8,7 @@ var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_chec
 var superagent = require('superagent');
 var async = require('async');
 var path = require('path');
+var fs   = require('fs');
 var _ = require('lodash');
 client.auth(redisURL.auth.split(":")[1]); 
 client.flushdb();
