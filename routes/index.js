@@ -85,6 +85,18 @@ router.get('/:lang/spots/:place', function(req, res){
   }
 });
 
+router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
+  var url = 'https://maps.googleapis.com/maps/api/place/photo?'+
+                                        'photoreference='+req.params.ref+'&'+
+                                        'maxwidth='+req.params.width+'&'+
+                                        'maxheight='+req.params.height+'&'+
+                                        'key='+process.env.GOOGLE_API_KEY;
+  get(url, function(data){
+    res.send(data);
+    res.end();
+  });
+});
+
 router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
   try {
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
