@@ -94,6 +94,7 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
                                         'key='+process.env.GOOGLE_API_KEY;
 
   var getFile = function(url, callback){
+    console.log(url);
     md5.update(url);
     var filename = md5.digest('hex'),
         extname  = path.extname(url),
