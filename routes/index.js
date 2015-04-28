@@ -106,18 +106,15 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
       superagent
         .get(url)
         .end(function(err, data){
-          fs.writeFile(filename, data, function(){
+          fs.writeFile(filename, data.body, function(){
             callback(filepath);
           });
         });
     }
   };
-  get(url, function(data){
-    console.log(data);
-    getFile(data.req.url, function(data){
-      res.sendFile(filepath, {
-        root: '/app/'
-      });
+  getFile(data.req.url, function(data){
+    res.sendFile(filepath, {
+      root: '/app/'
     });
   });
 
