@@ -112,8 +112,9 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
     console.log(filepath);
     res.sendFile(filepath, {
       root: '/app/'
+    }, function(){
+      res.end();
     });
-    res.end();
   });
 });
 
