@@ -94,7 +94,7 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
     var md5 = crypto.createHash('md5');
     md5.update(url);
     var filename = md5.digest('hex'),
-        filepath = "tmp/"+filename;
+        filepath = "public/images/"+filename;
 
     if(fs.existsSync('/app/'+filepath)){
       callback(filepath);
