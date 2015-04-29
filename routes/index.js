@@ -59,7 +59,7 @@ router.get('/:lang/spots/:place', function(req, res){
                  'key='+process.env.GOOGLE_API_KEY, function(data){
               var detail = data.body.result,
                   photos = (detail.photos || []).map(function(photo){
-                    return 'https://react-travel.herokuapp.com/'+req.params.lang+'/photo/242/242/'+photo.photo_reference+'/';
+                    return 'https://react-travel-api.herokuapp.com/'+req.params.lang+'/photo/242/242/'+photo.photo_reference+'/';
                   });
 
               callback([{
@@ -132,11 +132,7 @@ router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
     get(url, function(data){
       var spots = _.map(data.body.results||[], function(spot){
                     var photos = (spot.photos || []).map(function(photo){
-                          return 'https://maps.googleapis.com/maps/api/place/photo?'+
-                                 'photoreference='+photo.photo_reference+'&'+
-                                 'maxwidth=242&'+
-                                 'maxheight=242&'+
-                                 'key='+process.env.GOOGLE_API_KEY;
+                          return 'https://react-travel-api.herokuapp.com/'+req.params.lang+'/photo/242/242/'+photo.photo_reference+'/';
                         });
 
                     return {
