@@ -13,7 +13,6 @@ var _ = require('lodash');
 client.auth(redisURL.auth.split(":")[1]); 
 client.flushdb();
 var crypto = require('crypto');
-var md5 = crypto.createHash('md5');
 var get = function(url, callback){
   console.log(url);
   client.get(url, function(data){
@@ -92,7 +91,7 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
                                         'key='+process.env.GOOGLE_API_KEY;
 
   var getFile = function(url, callback){
-    console.log(url);
+    var md5 = crypto.createHash('md5');
     md5.update(url);
     var filename = md5.digest('hex'),
         extname  = path.extname(url),
@@ -114,8 +113,8 @@ router.get('/:lang/photo/:width/:height/:ref/', function(req, res){
     res.sendFile(filepath, {
       root: '/app/'
     });
+    res.end();
   });
-
 });
 
 router.get('/:lang/nearby/:location/:types/:radius', function(req, res){
