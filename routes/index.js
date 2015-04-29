@@ -244,7 +244,7 @@ router.post('/:lang/itinerary/remove/:id/', function(req, res){
   }
 });
 
-router.get('/:lang/itinerary/deleteAll', function(req, res){
+router.get('/:lang/itinerary/removeAll', function(req, res){
   try {
     client.flushdb();
     res.set({
