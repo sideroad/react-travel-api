@@ -11,7 +11,6 @@ var path = require('path');
 var fs   = require('fs');
 var _ = require('lodash');
 client.auth(redisURL.auth.split(":")[1]); 
-client.flushdb();
 var crypto = require('crypto');
 var get = function(url, callback){
   console.log(url);
